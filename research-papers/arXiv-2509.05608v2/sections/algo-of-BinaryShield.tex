@@ -1,0 +1,53 @@
+\begin{algorithm}[t]
+{\footnotesize
+    \SetKwInput{KwIn}{Input}
+    \SetKwInput{KwOut}{Output}
+    \SetKwFunction{PIIRedact}{PII\_Redact}
+    \SetKwFunction{Embed}{Embed}
+    \SetKwFunction{Quantize}{Quantize}
+    \SetKwFunction{RandResp}{RandomizedResponse}
+    \SetKwFunction{Broadcast}{Broadcast}
+    \SetKwFunction{Correlate}{Correlate}
+
+    \KwIn{Suspicious prompt $y$; system metadata $m$; privacy parameter $\alpha$;  set of peer services $\mathcal{S}$}
+    \KwOut{Privacy-preserving fingerprint $f$ broadcast to $\mathcal{S}$}
+
+    % Step 1: PII Redaction
+    $y_{redacted} \leftarrow$ \PIIRedact{$y$} \tcp*[r]{Remove all PII, replace with placeholders}
+
+    % Step 2: Semantic Embedding
+    $\mathbf{e} \leftarrow$ \Embed{$y_{redacted}$} \tcp*[r]{Compute semantic embedding vector}
+
+    % Step 3: Binary Quantization
+    $\mathbf{b} \leftarrow []$ \tcp*[r]{Initialize empty binary vector}
+    \For{$i \leftarrow 1$ \KwTo $d$}{
+        $b_i \leftarrow \begin{cases}
+                1 & \text{if } e_i > 0 \\
+                0 & \text{otherwise}
+            \end{cases}$ \;
+        Append $b_i$ to $\mathbf{b}$ \;
+    }
+    % Now $\mathbf{b}$ contains all quantized bits
+
+    % Step 4: Randomized Response for Local Differential Privacy
+    $p_\text{keep} \leftarrow \frac{e^{\alpha}}{e^{\alpha} + 1}$ \tcp*[r]{Probability of keeping the bit}
+    $\tilde{\mathbf{b}} \leftarrow []$ \tcp*[r]{Initialize empty privatized vector}
+    \For{$i \leftarrow 1$ \KwTo $d$}{
+        Sample $u_i \sim \mathrm{Uniform}(0,1)$ \;
+        \eIf{$u_i < p_\text{keep}$}{
+            $\tilde{b}_i \leftarrow b_i$ \tcp*[r]{Keep the true bit}
+        }{
+            $\tilde{b}_i \leftarrow 1 - b_i$ \tcp*[r]{Flip the bit}
+        }
+        Append $\tilde{b}_i$ to $\tilde{\mathbf{b}}$ \;
+    }
+
+    % Step 5: Fingerprint Construction
+    $f \leftarrow$ Concatenate$(\tilde{\mathbf{b}}, m)$ \tcp*[r]{Combine privatized bits with non-private metadata}
+
+    % Step 6: Broadcast to Peer Services
+    \Broadcast{$f$, $\mathcal{S}$} \tcp*[r]{Send fingerprint to peers}
+    }
+    \caption{\tool}
+    \label{alg:binaryshield-pipeline}
+\end{algorithm}

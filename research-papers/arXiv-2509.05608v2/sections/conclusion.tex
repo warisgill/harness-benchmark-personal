@@ -1,0 +1,12 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+
+
+Regulatory boundaries prevent an enterprise's multiple LLM services from sharing prompt injection threat intelligence. This isolation means an attack blocked by one service can still succeed against another, as each service has its own defense mechanism. 
+This creates a fundamental gap in the organization's collective defense capabilities.
+
+\tool addresses this critical gap by introducing the first privacy-preserving fingerprinting mechanism specifically designed for prompt injection threat intelligence. Through a carefully orchestrated pipeline combining PII redaction, semantic embedding, binary quantization, and randomized response, \tool generates privacy-preserving fingerprints that can be safely shared across compliance boundaries while preserving the semantic characteristics necessary for effective threat correlation. 
+
+The implications of this work extend beyond immediate operational benefits. As LLM-based systems become critical infrastructure across finance, healthcare, and government services, the attack surface for prompt injection continues to expand exponentially. The emergence of autonomous agents and MCP servers further amplifies these risks, potentially enabling attacks that cascade from text manipulation to arbitrary code execution and system compromise. \tool establishes the foundational system for collaborative defense against these evolving threats, creating a pathway toward industry-wide threat intelligence feeds analogous to existing malware signature ecosystems.
+

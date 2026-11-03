@@ -1,0 +1,8 @@
+\section{LLM Usage Considerations}
+
+We utilized GPT-4o to systematically generate the attack variants (word-flipped and paraphrased) for our evaluation. This approach was necessary because no public dataset exists for cross-service threat intelligence analysis and enterprise data access is restricted. To address this gap, we used GPT-4o to create a partially synthetic dataset from original prompt injection attacks. The generation was a one-time, offline process using efficient prompts (see Appendix \Cref{prompt:words-flipped} and \Cref{prompt:paraphrase}) to minimize the computational footprint. While using a closed-source model affects exact reproducibility, our generation process is transparent, and the resulting dataset characteristics are replicable with other powerful LLMs. We also briefly discuss this limitation in Section~\ref{sec:discussion-and-threats-to-validity}.
+
+We also used LLMs to correct grammar mistakes, similar to a feature like Grammarly. The whole content in this study is written entirely by the authors, who take full responsibility for the paper.
+
+
+

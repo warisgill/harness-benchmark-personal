@@ -1,0 +1,63 @@
+\section{Related Work and Discussion}
+
+\noindent{\textbf{Attacks.}}
+Several works have focused on systematically characterizing prompt injection attacks.
+For instance, \cite{greshake2023not} demonstrate how hidden instructions can be inserted into external content to trigger harmful model behaviors.
+Other works~\cite{wei2023jailbroken, zou2023universaltransferableadversarialattacks, zhang2024effective, deng2023masterkey, huang2024catastrophic, liu2024autodan, shen2024doanything, deng2024multilingual, chao2025jailbreaking} further contribute to our understanding by exploring a variety of prompt injection scenarios.
+In addition,~\cite{Yang2024SOS} propose \texttt{SOS}, a training-time \say{soft prompt} attack that implants backdoors into open-source LLMs. The LLM behaves normally, until a trigger token activates malicious behaviors like jailbreaks, prompt stealing, or output manipulation.
+In contrast,~\cite{russinovich2025greatwritearticlethat} introduce \texttt{Crescendo}, an inference-time jailbreak attack that unfolds over multiple dialogue turns.
+Supporting this observation,~\cite{bullwinkel2025representation} performs an in-depth analysis of such multi-turn jailbreak attacks and show why defenses designed for single-turn interactions, like circuit breakers \cite{zou2024improving}, may be insufficient.
+By examining internal model representations,~\cite{bullwinkel2025representation} shows that multi-turn prompts can gradually reframe harmful outputs as safe, effectively evading safeguards designed for single-turn interactions.
+\texttt{BIPIA}~\cite{yi2025benchmarking} systematically assesses the risks posed by malicious instructions embedded in third-party content and introduces two defense paradigms: one based on prompt engineering and in-context strategies in a black-box setting, and another using adversarial training with special tokens in a white-box setting.
+Finally,~\cite{abdelnabi2025llmail} introduces a realistic testbed for indirect prompt injection attacks targeting an LLM-based email assistant.
+Collectively, these studies~\cite{greshake2023not, wei2023jailbroken, zou2023universaltransferableadversarialattacks, zhang2024effective, deng2023masterkey, huang2024catastrophic, liu2024autodan, shen2024doanything, deng2024multilingual, chao2025jailbreaking, Yang2024SOS, russinovich2025greatwritearticlethat, bullwinkel2025representation, yi2025benchmarking, abdelnabi2025llmail} provide a comprehensive overview of the diverse strategies employed to exploit prompt injection attacks, underscoring the ongoing need for robust security measures in LLM-integrated applications and services.
+
+
+\noindent{\textbf{Attack Defenses.}}
+Recent work proposes a variety of defense strategies against prompt injection attacks. These approaches differ in their methods and operating settings, ranging from inference-time countermeasures to white-box techniques and architectural safeguards.
+\texttt{RigorLLM}~\cite{yuan2024rigorllm} framework enhances content moderation. Hines et al.~\cite{Hines2024Defending} build on the work of ~\cite{yi2025benchmarking}
+to address indirect prompt injection attacks by proposing a defense strategy based on \emph{spotlighting}.
+\texttt{CaMeL}~\cite{Debenedetti2025defeating} is a defense mechanism that explicitly detects and prevents prompt injection attacks by designing a secure execution layer around LLM operations.
+The work sits at the intersection of generative AI and software security, bringing established principles from the latter to protect emerging systems.
+SafeEar~\cite{SafeEar} proposes a method for detecting deepfake audio without accessing the actual speech content.
+\texttt{TaskTracker}~\cite{abdelnabi2025get} is a white-box defense,  that centers on tracking the model’s internal activations before and after processing external text. 
+\texttt{DataSentinel}~\cite{liu2025datasentinel} detects prompt injection attacks by fine-tuning a language model with a game-theoretic mini-max optimization. It uses a detection instruction embedding a secret key to verify the integrity of incoming data.
+Beurer-Kellner et al.~\cite{beurerkellner2025design} propose a six architectural design patterns (action-selector, plan-then-execute, map-reduce, dual LLM, code-then-execute, and context-minimization) that secure LLM agents against attacks. 
+Overall, most existing defenses are probabilistic and can be bypassed~\cite{Debenedetti2025defeating, costa2025securingaiagentsinformationflow}. Retrospective systems are needed to identify attackers, yet cross-service threat intelligence for large-scale prompt injection attacks correlation remains unexplored. To address this gap, techniques like SimHash can be leveraged. However, SimHash captures only syntactic similarity and fails to capture semantic similarity (Figures~\ref{fig:binaryshield_results},~\ref{fig:simhash_results}, and~\ref{fig:simhash_vs_binaryshield_f1}). 
+\emph{\tool is the first to focus on this gap, proposing a concrete system for cross-service threat intelligence and paving the way for future research in this domain.}
+
+
+
+
+
+
+
+
+\subsection{Discussion}  
+\label{sec:discussion-and-threats-to-validity}
+
+Our study has limitations similar to those in any research. 
+Synthetic paraphrasing and word substitution may yield varying results with different LLMs and prompts. 
+The effectiveness of the \tool's PII redaction module depends on the accuracy of detection methods. 
+Residual PII may remain in prompts.
+%
+Our results rely on specific embedding models, ModernBert (open-source)~\cite{warner-etal-2025-smarter, gill2025advancingsemanticcachingllms} and OpenAI text-embedding-3-large (proprietary). 
+Thus, performance may vary with other models. 
+We determined optimal Hamming distance thresholds through search on our datasets. 
+However, these thresholds may not generalize to other attack distributions or organizational contexts.
+%
+All experiments contain English prompts. 
+Future work should explore cross-lingual attack detection and domain-specific technical prompts. 
+We depend on computational non-invertibility and differential privacy guarantees. 
+The evaluation does not assess resistance to reconstruction attacks, which represent an orthogonal concern to current focus of the paper.
+
+
+\noindent{\textbf{Differential Privacy.}} Noise can be added to the fingerprint through various differential privacy mechanisms~\cite{warner1965randomized, Wang2017Locally, bhowmick2018protection, rappor, feyisetan2021private, vadhan2021concurrent, carvalho2021brr, bollegala2023neighbourhood, xie2024differentially, meehan2022sentence, asi2022optimal, du2023sanitizing, bittau2017prochlo, fanti2016building, hsu2014differential, near_abuah_2021, fioretto2024differential, dwork2014algorithmic, pmlr-v80-balle18a, NIPS2017_253614bb, hu2024sok}. 
+%
+\tool utilizes foundational work of Randomized Response mechanism~\cite{warner1965randomized}. 
+Assessing the impact of other DP mechanisms and global differential privacy on the overall privacy guarantees is an important direction for future research. 
+We did not formulate the privacy utility trade off as an optimization problem. 
+Readers may consult existing literature on this topic~\cite{near_abuah_2021, Wang2017Locally, dwork2014algorithmic, fioretto2024differential}. 
+However, in our experiments, we empirically evaluated conditions ranging from extreme privacy, where accuracy approaches zero, to moderate and weak privacy.
+Each organization has specific privacy policies, and we do not recommend a particular differential privacy budget. 
+Organizations should work with their privacy teams to select an appropriate budget based on their guidelines.  

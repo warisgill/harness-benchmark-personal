@@ -1,0 +1,87 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+
+\input{macros}
+
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+
+%%%%%%%% for header (first page) %%%%%
+\makeatletter
+\def\ps@IEEEtitlepagestyle{%
+    \fancyhf{}
+    \fancyhead[C]{\textcolor{blue}{\textbf{Accepted at the 2026 IEEE Conference on Secure and Trustworthy Machine Learning (SaTML)}}}
+    \fancyfoot[C]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
+}
+\makeatother
+%%%%%% end %%%%%%
+
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\begin{document}
+
+\title{BinaryShield: Cross-Service Threat Intelligence in LLM Services using Privacy-Preserving Fingerprints}
+
+\author{\IEEEauthorblockN{Waris Gill}
+  \IEEEauthorblockA{
+    \textit{Microsoft}\\
+    Redmond, USA \\
+  warisgill@microsoft.com}
+  \and
+  \IEEEauthorblockN{Natalie Isak}
+  \IEEEauthorblockA{
+    \textit{Microsoft}\\
+    New York, USA \\
+    natalieisak@microsoft.com}
+  \and
+  \IEEEauthorblockN{Matthew Dressman}
+  \IEEEauthorblockA{
+    \textit{Microsoft}\\
+    Redmond, USA \\
+  matthew.dressman@microsoft.com}
+  
+}
+
+\maketitle
+
+%%%%% for header (subsequent pages) %%%%
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\textcolor{blue}{\textbf{Accepted at the 2026 IEEE Conference on Secure and Trustworthy Machine Learning (SaTML)}}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+%%%%%% header ends %%%%%%
+
+\input{sections/abstract}
+\input{sections/introduction}
+\input{sections/approach-waris}
+\input{sections/evaluations}
+\input{sections/related-work}
+\input{sections/conclusion}
+\input{sections/llm-usage-section}
+
+
+\section*{Acknowledgment}
+We sincerely thank the SaTML reviewers for their valuable feedback. 
+We are also deeply grateful to Yonatan Zunger, Angela Argentati, Dharmin Shah, Sukirna Roy, Habiba Mohamed, Anandan Sundar, Leah Zulas, and the entire Microsoft AI Safety and Security organization for their support.
+
+
+
+\bibliographystyle{IEEEtran}
+\bibliography{main}
+
+
+
+
+
+
+
+
+\input{sections/appendix}
+
+\end{document}
+

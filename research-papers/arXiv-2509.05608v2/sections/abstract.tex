@@ -1,0 +1,11 @@
+
+\begin{abstract}
+    The widespread deployment of LLMs across enterprise services has created a critical security blind spot. Organizations operate multiple LLM services handling billions of queries daily, yet regulatory compliance boundaries prevent these services from sharing threat intelligence about prompt injection attacks, the top security risk for LLMs. When an attack is detected in one service, the same threat may persist undetected in others for months, as privacy regulations prohibit sharing user prompts across compliance boundaries.
+
+    We present \tool, \emph{the first privacy-preserving threat intelligence system that enables secure sharing of attack fingerprints across compliance boundaries.}
+    \tool transforms suspicious prompts through a unique pipeline combining PII redaction, semantic embedding, binary quantization, and randomized response mechanism to potentially generate privacy-preserving fingerprints that preserve attack patterns while providing privacy.
+    Our evaluations demonstrate that \tool
+    achieves an F1-score of 0.94, significantly outperforming SimHash (0.77), the privacy-preserving baseline, while achieving storage reduction and 38x faster similarity search compared to dense embeddings.
+
+\end{abstract}
+

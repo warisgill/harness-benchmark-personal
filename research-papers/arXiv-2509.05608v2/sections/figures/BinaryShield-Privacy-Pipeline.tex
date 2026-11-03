@@ -1,0 +1,57 @@
+\begin{figure*}[t]    
+\centering  
+\resizebox{\linewidth}{!}{%
+\begin{tikzpicture}[    
+    node distance=2.5cm,    
+    box/.style={rectangle, draw, thick, minimum height=1cm, minimum width=3cm, align=center, rounded corners=3pt},    
+    privacy/.style={box, fill=blue!15},    
+    transform/.style={box, fill=green!15},    
+    output/.style={box, fill=orange!15},    
+    arrow/.style={->, thick, >=stealth},    
+    label/.style={font=\footnotesize, align=center}    
+]    
+    
+% Input    
+\node[box] (input) {Potential Prompt\\Injection};    
+    
+% PII Redaction    
+\node[privacy, right=of input] (pii) {PII Redaction\\Module};    
+    
+% Embedding Generation    
+\node[transform, right=of pii] (embed) {Semantic\\Embedding\\Generation};    
+    
+% Binary Quantization    
+\node[transform, right=of embed] (quant) {Binary\\Quantization};    
+    
+% Differential Privacy    
+\node[privacy, right=of quant] (dp) {Randomized \\Response\\(Bit Flipping)};    
+    
+% Output Fingerprint    
+\node[output, right=of dp] (fingerprint) {Privacy-Preserving\\Binary Fingerprint};    
+    
+% Arrows for main pipeline    
+\draw[arrow] (input) -- node[above, label] {Raw prompt} (pii);    
+\draw[arrow] (pii) -- node[above, label] {Redacted text} (embed);    
+\draw[arrow] (embed) -- node[above, label] {Float vector\\$\mathbf{e} \in \mathbb{R}^d$} (quant);    
+\draw[arrow] (quant) -- node[above, label] {Binary vector\\$\mathbf{b} \in \{0,1\}^d$} (dp);    
+\draw[arrow] (dp) -- node[above, label] {Noisy binary\\$\tilde{\mathbf{b}} \in \{0,1\}^d$} (fingerprint);    
+       
+\node[align=center, font=\footnotesize] at ([yshift=1.0cm]quant.north) {    
+    \textit{Transformation:}\\[0.2em]    
+    $b_i = \begin{cases}    
+    1 & \text{if } e_i > 0\\    
+    0 & \text{otherwise}    
+    \end{cases}$    
+};    
+    
+\node[align=center, font=\footnotesize] at ([yshift=1.0cm]dp.north) {    
+    \textit{Privacy mechanism:}\\[0.2em]    
+    $\Pr[\tilde{b}_i = b_i] = \frac{e^\alpha}{e^\alpha + 1}$    
+};    
+    
+\end{tikzpicture}
+}
+\caption{\tool approach for privacy-preserving fingerprint generation for cross-service threat intelligence sharing. The pipeline transforms potential prompt injections through PII redaction, semantic embedding, binary quantization, and differential privacy to produce shareable fingerprints that preserve privacy while enabling threat correlation across compliance boundaries.}    
+\label{fig:BinaryShield-Privacy-Pipeline}
+\vspace{-4mm}      
+\end{figure*}  
